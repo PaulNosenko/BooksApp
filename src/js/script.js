@@ -29,7 +29,25 @@
     
     const app = {
         renderBooks: function() {
-            dataSource.books.forEach(this.renderBook);
+            dataSource.books.forEach(currentBookData => {
+                const bookPayload = {
+                    ...currentBookData,
+                    ratingWidth: currentBookData.rating * 10,
+                    ratingBgc: this.determineRatingBgc(currentBookData.rating)
+                }
+                this.renderBook(bookPayload);
+            });
+        },
+        determineRatingBgc: function(rating) {
+            if (rating < 6) {
+                return 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%);';
+            } else if (rating > 6 && rating <= 8) {
+                return 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%);';
+            } else if (rating > 8 && rating <= 9) {
+                return 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%);';
+            } else {
+                return 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%);';
+            }
         },
         renderBook: function (bookData) {
             //generate HTML for current single book
